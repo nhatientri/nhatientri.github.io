@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thông Tin Sinh Viên</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex; /* Make body a flex container */
+            flex-direction: column; /* Arrange children in a column */
+            min-height: 100vh; /* Ensure body takes at least full viewport height */
+        }
+
+        /* Header */
+        .header {
+            background-color: #BE1E2D;
+            color: white;
+            padding: 10px 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            margin-left: 16px;
+        }
+
+        .header img.logo {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        img, svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 40px;
+            background-color: #fff;
+            color: white;
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #BE1E2D; /* bright red line */
+
+        }
+
+        /* Left side: menu icon + logo */
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 1;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-icon svg {
+            height: 20px; /* slightly smaller to fit nicely */
+            width: 20px;
+            stroke: black; /* Changed to black for visibility */
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            display: block;
+        }
+
+        .navbar-left img.logo {
+            height: 30px; /* scale logo down to fit within 40px navbar */
+            width: auto;
+            display: block;
+        }
+
+        .navbar-right {
+            margin-top: 5px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .breadcrumb {
+            background-color: #fff;
+            padding: 10px 20px;
+            color: #b20000;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%; /* almost full width on small screens */
+            max-width: 500px; /* but no wider than 500px on large screens */
+            background-color: white;
+            margin: 30px auto; /* centers horizontally with vertical spacing */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box; /* includes padding in width calculation */
+            text-align: center;
+            flex-grow: 1; /* Allow main content to grow and push footer down */
+            margin-block-end: 80px; /* This margin might push content up, consider if intended */
+        }
+
+        .student-photo {
+            display: block; /* make image a block element */
+            margin: 0 auto 20px; /* center horizontally and add bottom margin */
+            width: 80%; /* keep your existing width */
+            border-radius: 8px;
+        }
+
+        .info {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .status {
+            color: teal;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .note {
+            font-style: italic;
+            color: gray;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Footer styles - HUST background removed */
+        .footer {
+            background-color: #e0e0e0; /* A light grey background, similar to the image */
+            color: #555; /* Slightly darker text for contrast on the background */
+            padding: 70px 0; /* Reduced padding */
+            text-align: center;
+            margin-top: auto; /* Pushes the footer to the bottom */
+            /* IMPORTANT: Use url_for for background images in CSS when using Flask */
+            background-image: url('{{ url_for('static', filename='img/footer.1e5dd709.jpeg') }}');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden; /* Still good to have for potential background image overflow */
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 30px auto 0;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically by default */
+            align-items: center;
+            gap: 10px; /* Reduced spacing between main sections */
+        }
+
+        .footer-section {
+            margin-bottom: 0; /* Eliminated margin between sections as gap handles it */
+            text-align: center; /* Center text within sections on small screens */
+        }
+
+        .footer-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 0; /* Ensure no extra margin */
+            color: #444;
+        }
+
+        .footer-contact p {
+            margin: 2px 0; /* Further reduced margin */
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .footer-app-info {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the app info block */
+            gap: 5px; /* Reduced space between logo and text */
+            margin-top: 10px; /* Slightly reduced top margin */
+        }
+
+        .footer-app-info img {
+            height: 35px; /* Slightly reduced image height */
+            width: auto;
+        }
+
+        .footer-app-text {
+            text-align: left;
+            font-size: 0.85em; /* Slightly smaller text */
+            line-height: 1.2; /* Tighter line height */
+        }
+
+        .footer-download-buttons {
+            display: flex;
+            justify-content: center; /* Center the buttons */
+            gap: 8px; /* Reduced gap between buttons */
+        }
+
+        .footer-download-buttons img {
+            height: 38px; /* Slightly reduced button size */
+            width: auto;
+        }
+
+        /* Responsive adjustments for footer */
+        @media (min-width: 768px) {
+            .footer-content {
+                /* On larger screens, the layout is still mostly stacked vertically */
+            }
+
+            .footer-section {
+                /* No change in text-align for larger screens, keep centered */
+            }
+
+            .footer-app-info {
+                /* Still stacked on larger screens as per the image */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <img src="{{ url_for('static', filename='img/Logobk.2a30b706.png') }}" class="logo" alt="BK Logo">
+    </div>
+</div>
+<div class="navbar">
+    <div class="navbar-left">
+        <div class="menu-icon" role="button" tabindex="0" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="60" viewBox="0 0 24 24" fill="black">
+                <path d="M3 6h18M3 12h18M3 18h18" stroke="black" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="navbar-right">
+        <img src="{{ url_for('static', filename='img/logo-app.ab821ed0.png') }}" class="logo" alt="BK Logo"/>
+    </div>
+</div>
+
+<div class="breadcrumb">
+    CTSV / THÔNG TIN SINH VIÊN
+</div>
+
+<div class="container">
+    <img src="{{ url_for('static', filename='img/92OBF72A3FFJ.jpeg') }}" alt="Nguyễn Ngọc Hưng" class="student-photo">
+    <div class="info"><strong>NGUYỄN NGỌC HƯNG</strong></div>
+    <div class="info">MSSV: 20226044</div>
+    <div class="info">Trường Công nghệ Thông tin và Truyền thông</div>
+    <div class="status">Đang học</div>
+    <div class="note">(Để biết thêm chi tiết liên hệ theo thông tin dưới đây)</div>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section footer-contact">
+            <p class="footer-title">BAN CÔNG TÁC SINH VIÊN</p>
+            <p>Địa chỉ: P101, 102, 103, 104, 105 nhà C1</p>
+            <p>Email: ctsv@hust.edu.vn - Tel: +84(0)24 3869 3108</p>
+        </div>
+
+        <div class="footer-section footer-app-info">
+            <img src="{{ url_for('static', filename='img/logo-app.ab821ed0.png') }}" alt="App Logo">
+            <div class="footer-app-text">
+                Cài đặt ứng dụng iCTSV <br> trên điện thoại
+            </div>
+        </div>
+
+        <div class="footer-section footer-download-buttons">
+            <a href="https://play.google.com/store/apps/details?id=com.example.app" target="_blank">
+                <img src="{{ url_for('static', filename='img/android.f7601c57.png') }}" alt="Download on Google Play">
+            </a>
+            <a href="https://apps.apple.com/us/app/your-app-name/id123456789" target="_blank">
+                <img src="{{ url_for('static', filename='img/ios.3cb33b08.png') }}" alt="Download on the App Store">
+            </a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
